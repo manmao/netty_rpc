@@ -20,21 +20,14 @@ public class SpringProxyFactoryBean<T> implements InitializingBean, FactoryBean<
         this.innerClassName = innerClassName;
     }
 
+    @Override
     public T getObject() throws Exception {
         Class innerClass = Class.forName(innerClassName);
-//        if (innerClass.isInterface()) {
-//            return (T) InterfaceProxy.newInstance(innerClass);
-//        } else {
-//            Enhancer enhancer = new Enhancer();
-//            enhancer.setSuperclass(innerClass);
-//            enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
-//            enhancer.setCallback(new MethodInterceptorImpl());
-//            return (T) enhancer.create();
-//        }
         return (T)Proxy.newProxyInstance(getClass().getClassLoader(),
                 new Class[]{innerClass}, new RpcProxy());
     }
 
+    @Override
     public Class<?> getObjectType() {
         try {
             return Class.forName(innerClassName);
@@ -44,10 +37,12 @@ public class SpringProxyFactoryBean<T> implements InitializingBean, FactoryBean<
         return null;
     }
 
+    @Override
     public boolean isSingleton() {
         return true;
     }
 
+    @Override
     public void afterPropertiesSet() throws Exception {
 
     }

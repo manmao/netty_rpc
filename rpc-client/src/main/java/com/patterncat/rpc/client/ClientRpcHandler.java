@@ -18,11 +18,11 @@ import java.util.concurrent.TimeUnit;
 @ChannelHandler.Sharable
 public class ClientRpcHandler extends SimpleChannelInboundHandler<RpcResponse> {
 
-    //用blocking queue主要是用阻塞的功能，省的自己加锁
+    /** 用blocking queue主要是用阻塞的功能，省的自己加锁 */
     private final ConcurrentHashMap<String, BlockingQueue<RpcResponse>> responseMap = new ConcurrentHashMap<String, BlockingQueue<RpcResponse>>();
 
 
-    //messageReceived
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcResponse rpcResponse) throws Exception {
         System.out.println("receive response:"+rpcResponse);

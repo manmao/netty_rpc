@@ -13,21 +13,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class ClientApplication {
 
-//    @Component
-//    public static class BeanScannerConfigurer implements BeanFactoryPostProcessor, ApplicationContextAware {
-//
-//        private ApplicationContext applicationContext;
-//
-//        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-//            this.applicationContext = applicationContext;
-//        }
-//
-//        public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-//            RpcScanner scanner = new RpcScanner((BeanDefinitionRegistry) beanFactory);
-//            scanner.setResourceLoader(this.applicationContext);
-//            scanner.scan("com.patterncat.rpc.");
-//        }
-//    }
 
     @Bean
     public RpcProxyFactory rpcProxyFactory(){
@@ -43,7 +28,7 @@ public class ClientApplication {
      */
     @Bean
     public HelloService buildHelloService(RpcProxyFactory rpcProxyFactory){
-        return rpcProxyFactory.proxyBean(HelloService.class,100/*timeout*/);
+        return rpcProxyFactory.proxyBean(HelloService.class,100);
     }
 
     public static void main(String[] args){

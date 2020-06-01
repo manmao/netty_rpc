@@ -29,8 +29,10 @@ public class RpcProxy implements InvocationHandler {
         this.timeout = timeout;
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        RpcRequest request = new RpcRequest(); // 创建并初始化 RPC 请求
+        // 创建并初始化 RPC 请求
+        RpcRequest request = new RpcRequest();
         request.setTraceId(UUID.randomUUID().toString());
         request.setClassName(method.getDeclaringClass().getName());
         request.setMethodName(method.getName());

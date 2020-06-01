@@ -35,9 +35,9 @@ public class NettyClient implements IClient {
 
     private volatile boolean closed = false;
 
-//    @Value("${client.workerGroupThreads:5}")
     int workerGroupThreads = 5;
 
+    @Override
     public void connect(final InetSocketAddress socketAddress) {
         try{
             workerGroup = new NioEventLoopGroup(workerGroupThreads);

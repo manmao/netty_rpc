@@ -30,9 +30,9 @@ import java.util.Map;
 
 /**
  * Created by patterncat on 2016/4/6.
+ * 实现ApplicationContextAware以获得ApplicationContext中的所有bean
  */
 @Component
-//实现ApplicationContextAware以获得ApplicationContext中的所有bean
 public class NettyServer implements ApplicationContextAware {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
@@ -41,6 +41,9 @@ public class NettyServer implements ApplicationContextAware {
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
 
+    /**
+     * 存放 interface 对应的bean实现
+     */
     private Map<String, Object> exportServiceMap = new HashMap<String, Object>();
 
     @Value("${rpcServer.host:127.0.0.1}")
@@ -111,8 +114,10 @@ public class NettyServer implements ApplicationContextAware {
      * @param ctx
      * @throws BeansException
      */
+    @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
-        Map<String, Object> serviceMap = ctx.getBeansWithAnnotation(ServiceExporter.class); // 获取所有带有 ServiceExporter 注解的 Spring Bean
+        // 获取所有带有 ServiceExporter 注解的 Spring Bean
+        Map<String, Object> serviceMap = ctx.getBeansWithAnnotation(ServiceExporter.class);
         logger.info("获取到所有的RPC服务:{}", serviceMap);
         if (serviceMap != null && serviceMap.size() > 0) {
             for (Object serviceBean : serviceMap.values()) {
